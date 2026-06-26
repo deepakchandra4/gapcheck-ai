@@ -1,12 +1,11 @@
 import { PDFParse } from "pdf-parse";
+
+
 import path from "path";
 import { pathToFileURL } from "url";
 
-
-const workerPath = path.resolve(
-    process.cwd(),
-    "node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs"
-);
+// Use public/pdf.worker.mjs to ensure it is packaged and available in production
+const workerPath = path.resolve(process.cwd(), "public/pdf.worker.mjs");
 PDFParse.setWorker(pathToFileURL(workerPath).toString());
 
 export async function extractTextFromPDF(buffer: Buffer): Promise<string> {
