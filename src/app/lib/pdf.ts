@@ -1,10 +1,13 @@
 import { PDFParse } from "pdf-parse";
 import { pathToFileURL } from "url";
-import { createRequire } from "module";
+import path from "path";
 
-const req = createRequire(import.meta.url);
-const resolveFn = (req as any)[["reso", "lve"].join("")];
-const workerPath = resolveFn("pdfjs-dist/legacy/build/pdf.worker.mjs");
+// Use process.cwd() to resolve the path at runtime.
+// The next.config.ts explicitly traces and packages this file under Vercel/production.
+const workerPath = path.resolve(
+    process.cwd(),
+    "node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs"
+);
 PDFParse.setWorker(pathToFileURL(workerPath).toString());
 
 export async function extractTextFromPDF(buffer: Buffer): Promise<string> {
