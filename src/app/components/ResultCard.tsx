@@ -56,7 +56,7 @@ function SectionBlock({
     title: string;
     items: string[];
     color?: "cyan" | "green" | "red" | "yellow" | "purple";
-    icon: React.ComponentType<any>;
+    icon: React.ComponentType<{ className?: string }>;
 }) {
     const config = colorMap[color];
 
