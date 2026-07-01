@@ -1,14 +1,8 @@
 import { PDFParse } from "pdf-parse";
-import { pathToFileURL } from "url";
-import path from "path";
+import { getData } from "pdf-parse/worker";
 
-// Use process.cwd() to resolve the path at runtime.
-// The next.config.ts explicitly traces and packages this file under Vercel/production.
-const workerPath = path.resolve(
-    process.cwd(),
-    "node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs"
-);
-PDFParse.setWorker(pathToFileURL(workerPath).toString());
+// Initialize the PDF worker using the Base64 inlined Data URL to prevent path resolution crashes in Serverless/Vercel.
+PDFParse.setWorker(getData());
 
 export async function extractTextFromPDF(buffer: Buffer): Promise<string> {
     try {
